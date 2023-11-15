@@ -86,6 +86,7 @@ export const cleanDetail = (dispatch) => {
 };
 
 export const postPokemon = (payload) => {
+    console.log(payload);
     return async () => {
         try{
             var newPokemon = await axios.post('http://localhost:3001/pokemons', payload);

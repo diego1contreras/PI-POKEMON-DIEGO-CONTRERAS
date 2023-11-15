@@ -1,5 +1,5 @@
 const express = require('express');
-const { Pokemons, Type } = require('../db');
+const { Pokemon, Type } = require('../db');
 const { getAllPokemons }= require('./functions');
 
 const router = express.Router();
@@ -43,13 +43,14 @@ router.get('/:id', async (req, res) => {
 //metodo post
 router.post('/', async(req, res) => {
     const {name, hp, attack, defense, speed, height, weight, img, types} = req.body;
+    console.log("Llegamos aca");
     try{
         if(name){
             const allPokemons = await getAllPokemons();
             const isPokemon = allPokemons.find(e => e.name === name.toLowerCase());
 
             if(!isPokemon){
-                const p = await Pokemons.create({
+                const p = await Pokemon.create({
                     name,
                     hp, 
                     attack,
@@ -58,7 +59,7 @@ router.post('/', async(req, res) => {
                     height,
                     weight,
                     img,
-                });
+                }).catch( (e) => {return e });
 
                 const typeDB = await Type.findAll({
                     where: {
@@ -69,10 +70,10 @@ router.post('/', async(req, res) => {
                 p.addType(typeDB);
                 return res.status(201).send(p);
             } else {
-                return res.status(404).send("Pokemon name already exist!!!");
+                return res.status(404).send("El nombre del pokemon ya existe!!!");
             }
         } else {
-            return res.status(404).send("Pokemon name is obligatory");
+            return res.status(404).send("El nombre del pokemon es obligatorio!!!");
         }
     }catch(e) {
         console.log(e);

@@ -37,7 +37,7 @@ describe('Pokemon routes', () => {
     it('should get 200', (done) => {
       agent.post('/pokemons')
       .send({
-        name: 'Zaraza',
+        name: 'Zazaza',
         hp: '100',
         attack: '120',
         defense: '55',
